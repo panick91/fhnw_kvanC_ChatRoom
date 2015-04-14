@@ -50,8 +50,8 @@ public class ConnectionListener extends Thread {
 
         if (message.startsWith("action")) {
             String[] tasks = message.split(";");
-            key = tasks[1].split("=")[1];
-            value = tasks[3].split("=")[1].substring(1, tasks[3].split("=")[1].length() - 1);
+            key = tasks[0].split("=")[1];
+            value = tasks[1].split("=")[1].substring(1, tasks[1].split("=")[1].length() - 1);
         } else {
             String[] key_value = message.split("=");
             key = key_value[0];
@@ -62,12 +62,14 @@ public class ConnectionListener extends Thread {
             switch (key) {
 
                 case "name":
+
+                    ch.setName(value);
+                    ch.sendParticipants(chatRoom.getParticipants());
+
                     chatRoom.addParticipant(value);
 
                     for (ConnectionHandler connection : connections) {
-                        if (connection == ch) {
-                            connection.setName(value);
-                        } else {
+                        if (connection != ch) {
                             connection.addParticipant(value);
                         }
                     }

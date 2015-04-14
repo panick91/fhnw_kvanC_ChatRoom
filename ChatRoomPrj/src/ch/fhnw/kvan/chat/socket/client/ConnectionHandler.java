@@ -65,8 +65,11 @@ public class ConnectionHandler implements Runnable {
 	}
 
 	public void addParticipant(String name)  {
-
 		out.println("add_participant=<" + name + ">");
+	}
+
+	public void sendParticipants(String participants) {
+		out.println(participants);
 	}
 
 	public void removeParticipant(String name)  {
